@@ -1,0 +1,14 @@
+https://modrinth.com/mod/hexdebug/version/0.8.0+1.20.1
+https://modrinth.com/mod/ioticblocks/version/SJMDeeZs
+https://modrinth.com/mod/hexflow/version/1.20.1-0.4
+https://modrinth.com/mod/hexflow/version/1.20.1-0.4
+https://modrinth.com/mod/hexodus/version/1.0.0
+https://modrinth.com/mod/hexparse/version/1.20.1-1.8.0
+https://modrinth.com/mod/hexpose/version/1.0.0
+https://modrinth.com/mod/hexsbm/version/0.2.2
+https://modrinth.com/mod/hexstruction/version/LfUSHo4m
+https://modrinth.com/mod/hextended-staves/version/2.0.1
+https://modrinth.com/mod/hierophantics/version/PTzxOIM2
+https://modrinth.com/mod/slate-works/version/1.0.7
+https://modrinth.com/mod/female-gender/version/1.20-3.0.1
+https://modrinth.com/mod/hexgender/version/rq1zWMAZ
