@@ -27,7 +27,7 @@ def work(url:str):
     hash = versionEntry.get("hashes").get("sha1")
 
     #Получение стороны мода
-    side = ["debug","client","server","both"][(len(projectReq.get("client_side"))==8)+(len(projectReq.get("server_side"))==8)*2] # Самый читаемый код
+    side = ["both","client","server","both"][(len(projectReq.get("client_side"))==8)+(len(projectReq.get("server_side"))==8)*2] # Самый читаемый код
 
     #Запись в файл
     pw_file = open('mods/' +mod_name + '.pw.toml', mode='w')
