@@ -31,7 +31,7 @@ def work(url:str):
 
     #Запись в файл
     pw_file = open('mods/' +mod_name + '.pw.toml', mode='w')
-    pw_file.write(f'name = "{mod_name}"\nfilename = "{versionEntry.get("filename")}"\nside = "{side}"\n\n[download]\nurl = "{url}"\nhash-format = "sha1"\nhash = "{hash}"\n')
+    pw_file.write(f'name = "{mod_name}"\nfilename = "{versionEntry.get("filename")}"\nside = "{side}"\n\n[download]\nurl = "{versionEntry.get("url")}"\nhash-format = "sha1"\nhash = "{hash}"\n')
     pw_file.close
 
 window = Tk()
@@ -43,6 +43,10 @@ urlEntry = ttk.Entry(urlField)
 urlEntry.pack(side="left")
 urlField.pack()
 
-ttk.Button(text="Обработать",command=lambda:work(urlEntry.get())).pack()
+def onButtonPress():
+    work(urlEntry.get())
+    urlEntry.delete(0,END)
+
+ttk.Button(text="Обработать",command=onButtonPress).pack()
 
 window.mainloop()
