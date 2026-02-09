@@ -5,7 +5,7 @@ import hashlib
 import requests
 
 def makeTOMLFile(name:str,filename:str,side:str,download:str,sha1:str):
-    open('mods/'+name+'.pw.toml', 'w').write(
+    with open('mods/'+name+'.pw.toml', 'w') as pwtoml: pwtoml.write(
         f'name = "{name}"\n'
         f'filename = "{filename}"\n'
         f'side = "{side}"\n'
@@ -14,6 +14,21 @@ def makeTOMLFile(name:str,filename:str,side:str,download:str,sha1:str):
         f'hash-format = "sha1"'
         f'\nhash = "{sha1}"\n'
     )
+
+def pwtomlFromModrinth(url:str):
+    url = url.replace("modrinth.com/mod","api.modrinth.com/v2/project")
+    project = requests.get(url.rsplit("/",2)[0]).json()
+    version = requests.get(url).json()
+    for file in version.get("files"):
+        if not file.get("primary"): continue
+        makeTOMLFile(
+            project.get("slug"),
+            file.get("filename"),
+            ["both", "server", "client"][(len(project.get("client_side")) == 11) | (len(project.get("server_side")) == 11) << 1],  # Чистый код
+            file.get("url"),
+            file.get("hashes").get("sha1")
+        )
+        break
 
 def getFromModrinth(project:dict,filename:str,replace:bool=True)->bool:
     filehash = hashlib.sha1(open(filename,"rb").read(),usedforsecurity=False).hexdigest()
@@ -44,13 +59,13 @@ def getFromModrinth(project:dict,filename:str,replace:bool=True)->bool:
 
 
 def getFabricModJSON(jar:str)->dict:
-    return json.loads(
-        zipfile.ZipFile(jar)
-        .read("fabric.mod.json")
-        .decode('utf-8')
-        .replace('\n', '')
-        .encode('utf-8')
-    )
+    with zipfile.ZipFile(jar) as jar:
+        return json.loads(jar
+              .read("fabric.mod.json")
+              .decode('utf-8')
+              .replace('\n', '')
+              .encode('utf-8')
+        )
 
 def searchProj(query: str) -> dict | None:
     if len(projects := requests.get("https://api.modrinth.com/v2/search", params={
@@ -95,4 +110,7 @@ def parseFolder(folder:str):
     for v in jars.values():
         print(str(v[0].split("/")[-1]))
 
-parseFolder("mods")
+def processModlist(path:str):
+    with open(path,"r") as modlist:
+        for mod in modlist.read().splitlines():
+            pwtomlFromModrinth(mod)
